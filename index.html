@@ -272,15 +272,15 @@
         <div id="stack-container" style="display:flex; flex-direction:column; align-items:center; gap:8px; margin-bottom: 30px;"></div>
         <div id="typewriter" class="final-msg"></div>
         <div id="niv-footer" class="footer-credit hidden">From Niv, with all my love.</div>
-        <button id="yes-btn" class="yes-btn hidden" onclick="celebrate()">Confirm ❤️</button>
+        <button id="yes-btn" class="yes-btn hidden" onclick="celebrate()">Confirm</button>
     </section>
 
     <script>
         const puzzles = [
-            { word: "I", hint: "I..." },
-            { word: "WILL", hint: "I will..." },
-            { word: "BE", hint: "I will be..." },
-            { word: "YOUR", hint: "I will be your..." },
+            { word: "I", hint: "First Person Singular" },
+            { word: "WILL", hint: "Going to" },
+            { word: "BE", hint: "Infinitive Verb" },
+            { word: "YOUR", hint: "Possesive Pronoun" },
             { word: "VALENTINE", hint: "The final connection." }
         ];
 
@@ -396,7 +396,7 @@
 
         function celebrate() {
             confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 } });
-            document.getElementById('yes-btn').innerText = "Confirmed ❤️";
+            document.getElementById('yes-btn').innerText = "Confirmed";
         }
 
         function addInk(e) {
