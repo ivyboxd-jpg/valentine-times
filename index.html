@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The Aaradhya Times</title>
-    <!-- NYT Style Fonts -->
+    <title>The Girlfriend Times</title>
+    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,700;1,700&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
@@ -16,198 +16,131 @@
             --wordle-absent: #787c7e;
             --wordle-border: #d3d6da;
             --nyt-blue: #567b95;
+            --rule-color: #ebebeb;
         }
 
-        * { 
-            box-sizing: border-box; 
-            margin: 0; 
-            padding: 0; 
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
         body {
             background-color: #e2e2e2;
             color: var(--nyt-black);
             font-family: 'Libre Baskerville', serif;
-            line-height: 1.4;
-            overflow-x: hidden;
+            line-height: 1.6;
         }
 
         .hidden { display: none !important; }
 
         /* --- PHASE 1: THE NEWSPAPER --- */
         #paper-container {
-            max-width: 800px;
+            max-width: 1050px;
             margin: 10px auto;
             background: var(--nyt-bg);
             padding: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            min-height: 95vh;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
 
-        @media (min-width: 600px) {
+        @media (min-width: 768px) {
             #paper-container { margin: 40px auto; padding: 40px; }
         }
 
-        .masthead {
-            text-align: center;
-            border-bottom: 2px solid var(--nyt-black);
-        }
-
+        .masthead { text-align: center; border-bottom: 2px solid var(--nyt-black); }
         .masthead h1 {
             font-family: 'UnifrakturMaguntia', cursive;
-            font-size: clamp(38px, 11vw, 80px);
-            margin: 0;
-            font-weight: 400;
+            font-size: clamp(45px, 12vw, 90px);
+            margin: 0; font-weight: 400;
         }
-
         .motto {
-            font-size: 10px;
-            text-align: center;
-            border-bottom: 1px solid var(--nyt-black);
-            padding-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
+            font-size: 11px; text-align: center; border-bottom: 1px solid var(--nyt-black);
+            padding-bottom: 5px; text-transform: uppercase; letter-spacing: 2px;
         }
-
         .date-bar {
-            display: flex;
-            justify-content: space-between;
-            font-size: 10px;
-            padding: 4px 0;
-            border-bottom: 3px double var(--nyt-black);
-            font-weight: bold;
-            margin-bottom: 20px;
+            display: flex; justify-content: space-between; font-size: 12px;
+            padding: 5px 0; border-bottom: 3px double var(--nyt-black);
+            font-weight: bold; margin-bottom: 25px;
         }
 
-        .headline {
-            font-size: clamp(22px, 7vw, 40px);
-            line-height: 1.1;
-            text-align: center;
-            margin-bottom: 20px;
-            font-weight: 700;
+        .main-headline {
+            font-size: clamp(28px, 6vw, 54px);
+            line-height: 1.05; text-align: center;
+            font-weight: 700; margin-bottom: 15px;
+        }
+        .sub-headline {
+            font-size: clamp(16px, 3vw, 20px);
+            text-align: center; font-style: italic; color: #444;
+            margin-bottom: 30px; border-bottom: 1px solid var(--rule-color);
+            padding-bottom: 20px;
         }
 
-        .article-body {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+        /* 3-Column Layout */
+        .article-grid {
+            display: grid; grid-template-columns: 1fr; gap: 30px;
+        }
+        @media (min-width: 768px) {
+            .article-grid { grid-template-columns: 1fr 1fr 1fr; }
         }
 
-        @media (min-width: 600px) {
-            .article-body { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+        .column { text-align: justify; font-size: 15px; }
+        @media (min-width: 768px) {
+            .column:not(:last-child) { border-right: 1px solid var(--rule-color); padding-right: 25px; }
         }
-
-        .main-col { text-align: justify; font-size: 16px; }
 
         .dropcap {
-            float: left;
-            font-size: 60px;
-            line-height: 50px;
-            padding-right: 8px;
-            font-weight: 700;
+            float: left; font-size: 65px; line-height: 55px;
+            padding-right: 10px; font-weight: 700;
         }
-
         .byline {
-            font-family: 'Source Sans Pro', sans-serif;
-            font-weight: 700; font-size: 11px;
-            text-transform: uppercase; margin-bottom: 10px; display: block;
+            font-family: 'Source Sans Pro', sans-serif; font-weight: 700;
+            font-size: 11px; text-transform: uppercase; margin-bottom: 15px; display: block;
         }
 
         .weather-box {
-            border: 1px solid #000; padding: 12px;
-            background: #fff; font-size: 13px;
+            border: 1px solid #000; padding: 15px; background: #fff; margin-top: 25px;
         }
-
         .weather-box h3 {
-            font-family: 'Source Sans Pro', sans-serif;
-            font-size: 11px; text-transform: uppercase;
-            border-bottom: 1px solid #000; margin-bottom: 5px;
+            font-family: 'Source Sans Pro', sans-serif; font-size: 11px;
+            text-transform: uppercase; border-bottom: 1px solid #000; margin-bottom: 8px;
         }
 
         .turn-page {
-            display: block; margin-top: 30px; text-align: right;
-            font-weight: bold; color: var(--nyt-blue); cursor: pointer;
-            font-style: italic; text-decoration: underline;
+            display: inline-block; margin-top: 40px; font-weight: 700;
+            color: var(--nyt-blue); cursor: pointer; text-decoration: underline;
+            font-style: italic; font-size: 14px;
         }
 
-        /* --- PHASE 2: THE LETTER --- */
+        /* --- PHASE 2: BRIDGE --- */
         #letter-view {
-            max-width: 500px; margin: 40px auto;
-            background: white; padding: 30px; border-radius: 4px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            animation: fadeIn 1s;
+            max-width: 600px; margin: 60px auto; background: white;
+            padding: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-
-        .letter-text { font-size: 18px; line-height: 1.7; color: #222; }
 
         /* --- PHASE 3: PUZZLE --- */
-        #puzzle-view {
-            max-width: 100%; margin: 0 auto;
-            text-align: center; padding: 10px;
-        }
-
+        #puzzle-view { max-width: 500px; margin: 0 auto; text-align: center; padding: 20px; }
         .wordle-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 32px; font-weight: 700;
-            margin-bottom: 10px; font-style: italic;
+            font-family: 'UnifrakturMaguntia', cursive; font-size: 40px; margin-bottom: 20px;
         }
-
-        .grid-container {
-            display: flex; flex-direction: column;
-            gap: 5px; align-items: center; margin-bottom: 20px;
-        }
-
-        .wordle-row { display: flex; gap: 5px; }
-
         .tile {
-            width: clamp(38px, 12vw, 55px);
-            height: clamp(38px, 12vw, 55px);
-            border: 2px solid var(--wordle-border);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; font-weight: bold; text-transform: uppercase;
-            background: white; font-family: 'Source Sans Pro', sans-serif;
+            width: clamp(40px, 12vw, 55px); height: clamp(40px, 12vw, 55px);
+            border: 2px solid var(--wordle-border); display: flex;
+            align-items: center; justify-content: center; font-size: 1.8rem;
+            font-weight: bold; text-transform: uppercase; background: white;
+            font-family: 'Source Sans Pro', sans-serif;
         }
-
-        .tile.correct { background: var(--wordle-correct); border-color: var(--wordle-correct); color: white; }
-        .tile.present { background: var(--wordle-present); border-color: var(--wordle-present); color: white; }
-        .tile.absent { background: var(--wordle-absent); border-color: var(--wordle-absent); color: white; }
-
-        .keyboard {
-            width: 100%; max-width: 500px; margin: 0 auto;
-            display: flex; flex-direction: column; gap: 6px;
-        }
-
-        .key-row { display: flex; justify-content: center; gap: 4px; }
-
+        .keyboard { display: flex; flex-direction: column; gap: 8px; margin-top: 30px; }
+        .key-row { display: flex; justify-content: center; gap: 5px; }
         .key {
-            background: #d3d6da; flex: 1; height: 50px;
-            border-radius: 4px; display: flex; align-items: center; justify-content: center;
-            font-weight: bold; font-size: 14px; font-family: 'Source Sans Pro', sans-serif;
-            cursor: pointer; user-select: none;
+            background: #d3d6da; flex: 1; height: 55px; border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 14px; cursor: pointer;
         }
+        .key.wide { flex: 1.6; }
 
-        .key.wide { flex: 1.5; font-size: 12px; }
-
-        /* --- PHASE 4: FINAL REVEAL --- */
-        #final-view { text-align: center; padding: 40px 20px; }
-
-        .final-font {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(28px, 8vw, 42px);
-            font-weight: 700;
-            color: var(--nyt-black);
-            margin-top: 20px;
-        }
-
+        /* --- PHASE 4: REVEAL --- */
+        .final-font { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; }
         .yes-btn {
-            background: var(--nyt-blue); color: white;
-            padding: 15px 50px; border: none; border-radius: 30px;
-            font-size: 20px; font-weight: bold; cursor: pointer;
-            margin-top: 20px; transition: transform 0.2s;
+            background: var(--nyt-blue); color: white; padding: 18px 60px;
+            border: none; border-radius: 40px; font-size: 22px; cursor: pointer;
+            font-weight: bold; margin-top: 30px;
         }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -215,45 +148,52 @@
     <!-- PHASE 1: NEWSPAPER -->
     <main id="paper-container">
         <header class="masthead">
-            <h1>The Aaradhya Times</h1>
-            <div class="motto">"All the News That's Fit to Print"</div>
+            <h1>The Girlfriend Times</h1>
+            <div class="motto">"All the Love That's Fit to Print"</div>
             <div class="date-bar">
-                <span>VOL. I... No. 112</span>
-                <span>MONDAY, JAN 12, 2026</span>
+                <span>VOL. CLXXV... No. 59,984</span>
+                <span>MONDAY, JANUARY 12, 2026</span>
                 <span>NEW YORK EDITION</span>
             </div>
         </header>
 
         <section id="news-content">
-            <h2 class="headline">Man Credits Entire Personality to Woman Whose Instagram Story He Replied To</h2>
+            <h1 class="main-headline">Man Credits Entire Personality to Woman Whose Instagram Story He Replied To</h1>
+            <p class="sub-headline">Scientific community baffled as one local man’s happiness levels exceed global averages following a single digital interaction.</p>
             
-            <div class="article-body">
-                <div class="main-col">
-                    <span class="byline">By NIV (Staff Correspondent)</span>
-                    <p><span class="dropcap">I</span>n a Monday morning report that has stunned the local community, Niv has officially confirmed that his happiness levels have reached an all-time high, thanks entirely to Aaradhya.</p>
-                    <p>“I wasn’t even planning on it,” Niv reported in a recent interview. “One moment I was just scrolling, and the next thing I knew, my life was significantly better.”</p>
-                    <p>Sources close to the couple report that Aaradhya's presence has a "calming yet exhilarating effect," making every Monday feel like a Saturday.</p>
+            <div class="article-grid">
+                <div class="column">
+                    <span class="byline">By NIV (Chief Romantic Correspondent)</span>
+                    <p><span class="dropcap">I</span>n a Monday morning report that has stunned social observers, local man Niv has officially confirmed that his entire life trajectory shifted the moment he hit 'send' on a reply to Aaradhya's Instagram story.</p>
+                    <p>"I wasn’t even planning on it," Niv reported while being interviewed at a coffee shop. "One moment I was just scrolling, and the next thing I knew, my life had purpose. It's the best decision I've ever made, hands down."</p>
+                    <p>Experts suggest that this "DM effect" is responsible for Niv's constant smiling and improved taste in music.</p>
                 </div>
-                <div class="side-col">
+                <div class="column">
+                    <p>Witnesses confirm that <strong>Aaradhya</strong> is "way too good for him" but has inexplicably decided to stick around anyway. Her decision to stay has been met with universal acclaim from his friends and eternal gratitude from Niv himself.</p>
+                    <p>“She brings a level of brilliance and radiance to the table that he frankly wasn't prepared for,” said one observer. “It’s a miracle of modern dating.”</p>
+                    <p>The relationship, which began with a simple DM, has since evolved into what is being described as "genuinely very sweet" and "honestly kind of impressive given the distance."</p>
+                </div>
+                <div class="column">
+                    <p>Meanwhile, rumors are circulating about a hidden message intended for Aaradhya. Insiders suggest that to find it, she must navigate through the paper's interactive back section.</p>
                     <div class="weather-box">
                         <h3>Today's Forecast</h3>
-                        <p><strong>BRIGHT:</strong> 100% chance of a special message. Highs of joy, lows of zero boredom.</p>
+                        <p><strong>BRIGHT:</strong> 100% chance of a special question. Highs of 72, lows of zero regrets.</p>
                     </div>
-                    <span class="turn-page" onclick="showLetter()">Turn to Page 2 →</span>
+                    <span class="turn-page" onclick="showLetter()">Turn to Page 2, Editorial →</span>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- PHASE 2: LETTER -->
+    <!-- PHASE 2: BRIDGE -->
     <section id="letter-view" class="hidden">
-        <div class="letter-text">
+        <div style="font-size: 18px; line-height: 1.8;">
             <p>Dearest Aaradhya,</p>
             <br>
-            <p>I know it's just a regular Monday, but I wanted to make it feel a little more like ours. If you've finished reading the news, I've left a little something for you on the back page.</p>
-            <p>Since we both like a good connection, I thought a puzzle would be the best way to tell you what's on my mind today.</p>
+            <p>I know it’s just a regular Monday, but looking at you makes every day feel like front-page news. I wanted to create something that captures how lucky I feel to have replied to that story.</p>
+            <p>If you turn to the back page, you’ll find our Daily Connection puzzle. I’ve hidden a very specific request for you there.</p>
             <br>
-            <p>No pressure, but the editor says you're quite good at these.</p>
+            <p>Yours always,</p>
             <p><strong>— Niv</strong></p>
             <br>
             <span class="turn-page" onclick="showPuzzle()">Solve "The Daily Connection" →</span>
@@ -263,8 +203,8 @@
     <!-- PHASE 3: PUZZLE -->
     <section id="puzzle-view" class="hidden">
         <h2 class="wordle-title">The Daily Connection</h2>
-        <div id="grid-container" class="grid-container"></div>
-        <p id="hint-text" style="font-size: 14px; margin-bottom: 15px; color: #567b95; font-weight: bold; font-family: 'Source Sans Pro';"></p>
+        <div id="grid-container" style="display:flex; flex-direction:column; gap:5px; align-items:center; margin-bottom:20px;"></div>
+        <p id="hint-text" style="font-weight: bold; color: var(--nyt-blue); margin-bottom: 15px; font-family: 'Source Sans Pro';"></p>
 
         <div class="keyboard">
             <div class="key-row">
@@ -282,22 +222,23 @@
     </section>
 
     <!-- PHASE 4: FINAL REVEAL -->
-    <section id="final-view" class="hidden">
+    <section id="final-view" class="hidden" style="text-align: center; padding: 50px 20px;">
         <div id="stack-container" style="display:flex; flex-direction:column; align-items:center; gap:8px; margin-bottom: 30px;"></div>
         <div id="typewriter" class="final-font"></div>
         <button id="yes-btn" class="yes-btn hidden" onclick="celebrate()">Confirm ❤️</button>
         <div id="love-msg" class="hidden">
-            <h1 class="final-font" style="font-size: 50px; margin-top: 30px;">You're the highlight of my day.</h1>
+            <h1 class="final-font" style="font-size: 50px; margin-top: 30px;">See you soon!</h1>
             <p style="margin-top:10px; font-style: italic;">From Niv, with love.</p>
         </div>
     </section>
 
     <script>
         const puzzles = [
-            { word: "YOU", hint: "Who I'm thinking about..." },
-            { word: "ARE", hint: "You ___..." },
-            { word: "MY", hint: "You are __..." },
-            { word: "FAVORITE", hint: "You are my ________." }
+            { word: "I", hint: "Just one letter..." },
+            { word: "WILL", hint: "Next word..." },
+            { word: "BE", hint: "To exist..." },
+            { word: "YOUR", hint: "Belonging to you..." },
+            { word: "VALENTINE", hint: "The final sweetheart word." }
         ];
 
         let currentIdx = 0;
@@ -321,11 +262,11 @@
             const container = document.getElementById('grid-container');
             container.innerHTML = "";
             const word = puzzles[currentIdx].word;
-            document.getElementById('hint-text').innerText = puzzles[currentIdx].hint;
+            document.getElementById('hint-text').innerText = "Word " + (currentIdx + 1) + ": " + puzzles[currentIdx].hint;
             
             for (let r = 0; r < 6; r++) {
                 const row = document.createElement('div');
-                row.className = 'wordle-row';
+                row.className = 'key-row';
                 for (let c = 0; c < word.length; c++) {
                     const tile = document.createElement('div');
                     tile.className = 'tile';
@@ -345,20 +286,16 @@
             } else if (currentGuess.length < word.length && /^[A-Z]$/.test(key)) {
                 currentGuess += key;
             }
-            updateTiles();
-        }
-
-        function updateTiles() {
-            const rows = document.querySelectorAll('.wordle-row');
-            if (!rows[rowIdx]) return;
-            const tiles = rows[rowIdx].querySelectorAll('.tile');
-            tiles.forEach((t, i) => t.innerText = currentGuess[i] || "");
+            const tiles = document.querySelectorAll('.tile');
+            const rowTiles = Array.from(tiles).slice(rowIdx * word.length, (rowIdx + 1) * word.length);
+            rowTiles.forEach((t, i) => t.innerText = currentGuess[i] || "");
         }
 
         function submitGuess() {
             const target = puzzles[currentIdx].word;
             const guess = currentGuess;
-            const tiles = document.querySelectorAll('.wordle-row')[rowIdx].querySelectorAll('.tile');
+            const wordLen = target.length;
+            const tiles = Array.from(document.querySelectorAll('.tile')).slice(rowIdx * wordLen, (rowIdx + 1) * wordLen);
 
             tiles.forEach((tile, i) => {
                 setTimeout(() => {
@@ -380,15 +317,14 @@
                     } else { showReveal(); }
                 } else {
                     rowIdx++; currentGuess = "";
-                    if (rowIdx === 6) { alert("Let's try that one again!"); rowIdx = 0; initGrid(); }
+                    if (rowIdx === 6) { alert("Try again!"); rowIdx = 0; initGrid(); }
                 }
-            }, target.length * 150 + 400);
+            }, wordLen * 150 + 400);
         }
 
         function showReveal() {
             document.getElementById('puzzle-view').classList.add('hidden');
             document.getElementById('final-view').classList.remove('hidden');
-            
             const stack = document.getElementById('stack-container');
             solvedWords.forEach(word => {
                 const row = document.createElement('div');
@@ -396,14 +332,14 @@
                 word.split('').forEach(char => {
                     const t = document.createElement('div');
                     t.className = 'tile correct'; t.innerText = char;
-                    t.style.width = '35px'; t.style.height = '35px'; t.style.fontSize = '1rem';
+                    t.style.width = '35px'; t.style.height = '35px'; t.style.fontSize = '1.2rem';
                     row.appendChild(t);
                 });
                 stack.appendChild(row);
             });
 
             setTimeout(() => {
-                let i = 0; const txt = "I'm just really glad you're in my life, Aaradhya.";
+                let i = 0; const txt = "So, Aaradhya... what do you say?";
                 function type() {
                     if (i < txt.length) {
                         document.getElementById('typewriter').innerHTML += txt.charAt(i);
@@ -415,7 +351,7 @@
         }
 
         function celebrate() {
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#567b95', '#fdfcf0', '#6aaa64'] });
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
             document.getElementById('yes-btn').classList.add('hidden');
             document.getElementById('love-msg').classList.remove('hidden');
             document.getElementById('typewriter').style.opacity = "0.5";
