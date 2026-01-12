@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Girlfriend Times</title>
+    <!-- NYT Style Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --nyt-bg: #fffcf5;
+            --nyt-black: #121212;
+            --wordle-correct: #6aaa64;
+            --wordle-present: #c9b458;
+            --wordle-absent: #787c7e;
+            --wordle-border: #d3d6da;
+            --nyt-blue: #567b95;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: #dcdcdc;
+            color: var(--nyt-black);
+            font-family: 'Libre Baskerville', serif;
+            line-height: 1.5;
+            transition: background 1s ease;
+        }
+
+        .hidden { display: none !important; }
+
+        /* --- PHASE 1: THE NEWSPAPER --- */
+        #paper-container {
+            max-width: 850px;
+            margin: 40px auto;
+            background: var(--nyt-bg);
+            padding: 50px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.2);
+            position: relative;
+            min-height: 90vh;
+        }
+
+        .masthead {
+            text-align: center;
+            border-bottom: 2px solid var(--nyt-black);
+            margin-bottom: 4px;
+        }
+
+        .masthead h1 {
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 75px;
+            margin: 0;
+            font-weight: 400;
+            letter-spacing: -1px;
+        }
+
+        .motto {
+            font-size: 11px;
+            text-align: center;
+            border-bottom: 1px solid var(--nyt-black);
+            padding-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .date-bar {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            padding: 4px 0;
+            border-bottom: 3px double var(--nyt-black);
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .headline {
+            font-size: 44px;
+            line-height: 1.1;
+            text-align: center;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .article-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+        }
+
+        .main-col {
+            border-right: 1px solid #ccc;
+            padding-right: 30px;
+            text-align: justify;
+        }
+
+        .dropcap {
+            float: left;
+            font-size: 70px;
+            line-height: 55px;
+            padding-right: 10px;
+            font-weight: 700;
+        }
+
+        .byline {
+            font-family: 'Source Sans Pro', sans-serif;
+            font-weight: 700;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            display: block;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        .weather-box {
+            border: 1px solid #000;
+            padding: 15px;
+            font-size: 14px;
+            background: #fff;
+            margin-top: 20px;
+        }
+
+        .weather-box h3 {
+            font-family: 'Source Sans Pro', sans-serif;
+            font-size: 11px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #000;
+            margin-bottom: 10px;
+        }
+
+        .btn-link {
+            display: inline-block;
+            margin-top: 40px;
+            font-weight: bold;
+            color: #000;
+            cursor: pointer;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            font-style: italic;
+        }
+
+        /* --- PHASE 2: THE LETTER --- */
+        #letter-container {
+            max-width: 600px;
+            margin: 100px auto;
+            background: white;
+            padding: 60px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            border-radius: 2px;
+            animation: fadeIn 1.5s ease;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .letter-content {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        /* --- PHASE 3: PUZZLE --- */
+        #puzzle-section {
+            max-width: 500px;
+            margin: 40px auto;
+            text-align: center;
+        }
+
+        .wordle-row { display: flex; justify-content: center; gap: 5px; margin-bottom: 5px; }
+        .tile {
+            width: 55px; height: 55px; border: 2px solid var(--wordle-border);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; font-weight: bold; text-transform: uppercase;
+            font-family: 'Source Sans Pro', sans-serif;
+            background: white;
+        }
+        .tile.correct { background: var(--wordle-correct); border-color: var(--wordle-correct); color: white; }
+        .tile.present { background: var(--wordle-present); border-color: var(--wordle-present); color: white; }
+        .tile.absent { background: var(--wordle-absent); border-color: var(--wordle-absent); color: white; }
+
+        .keyboard { margin-top: 30px; display: flex; flex-direction: column; gap: 8px; }
+        .key-row { display: flex; justify-content: center; gap: 6px; }
+        .key {
+            background: #d3d6da; padding: 15px 12px; border-radius: 4px;
+            font-weight: bold; cursor: pointer; min-width: 40px;
+            font-family: 'Source Sans Pro', sans-serif;
+        }
+
+        /* --- PHASE 4: REVEAL --- */
+        .yes-btn {
+            background: var(--nyt-blue); color: white; padding: 15px 45px;
+            border: none; border-radius: 30px; font-size: 22px; cursor: pointer;
+            font-weight: bold; margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PHASE 1: THE NEWSPAPER -->
+    <main id="paper-container">
+        <header class="masthead">
+            <h1>The Girlfriend Times</h1>
+            <div class="motto">"All the Love That's Fit to Print"</div>
+            <div class="date-bar">
+                <span>NEW YORK EDITION</span>
+                <span>SATURDAY, FEBRUARY 14, 2026</span>
+                <span>PRICE: ONE KISS</span>
+            </div>
+        </header>
+
+        <section id="newspaper-content">
+            <h2 class="headline">Local Man Credits Entire Personality to Woman Whose Instagram Story He Replied To</h2>
+            
+            <div class="article-grid">
+                <div class="main-col">
+                    <span class="byline">By THE LOVE DESK</span>
+                    <p><span class="dropcap">O</span>n a day that will surely go down in historical records, sources have confirmed that <strong>Niv</strong> continues to be the best thing that has ever happened to the man who once sent a hopeful DM.</p>
+                    <p>In a press conference held earlier today, the man admitted that his life prior to meeting Niv was "essentially just waiting for the right notification." Witnesses report that Niv's influence has resulted in a 400% increase in the man's happiness and a significant improvement in his overall aesthetic.</p>
+                    <p>“It’s truly a phenomenon,” said one close associate. “Niv brings a level of brilliance and charm that has basically rewritten his entire world.”</p>
+                </div>
+                <div class="side-col">
+                    <p>Reports indicate that <strong>Niv</strong> is currently being considered for the "Best Person Ever" award, with a 100% approval rating.</p>
+                    <div class="weather-box">
+                        <h3>Today's Forecast</h3>
+                        <p><strong>BRIGHT:</strong> 100% chance of a special message appearing on the next page.</p>
+                    </div>
+                    <span class="btn-link" onclick="goToLetter()">Turn to Page 2 →</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- PHASE 2: THE LETTER -->
+    <section id="letter-container" class="hidden">
+        <div class="letter-content">
+            <p>Dearest Niv,</p>
+            <p>Every great newspaper has an editorial—a place for the publisher to say what’s truly on their mind. Today, that publisher is me, and the subject is you.</p>
+            <p>Reading the news is one thing, but some stories are better discovered through a little bit of intuition. I’ve hidden a message on the back page that sums up exactly how I feel about you.</p>
+            <p>I hope you can find the words.</p>
+            <p style="margin-top: 20px;">Yours always,<br><strong>[Your Name]</strong></p>
+            <span class="btn-link" onclick="startPuzzle()">Continue to the Back Page →</span>
+        </div>
+    </section>
+
+    <!-- PHASE 3: PUZZLE -->
+    <section id="puzzle-section" class="hidden">
+        <h2 style="font-family:'Source Sans Pro'; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 20px;">The Back Page</h2>
+        <div id="grid-container"></div>
+        
+        <div class="keyboard">
+            <div class="key-row">
+                <div class="key" onclick="handleInput('Q')">Q</div><div class="key" onclick="handleInput('W')">W</div><div class="key" onclick="handleInput('E')">E</div><div class="key" onclick="handleInput('R')">R</div><div class="key" onclick="handleInput('T')">T</div><div class="key" onclick="handleInput('Y')">Y</div><div class="key" onclick="handleInput('U')">U</div><div class="key" onclick="handleInput('I')">I</div><div class="key" onclick="handleInput('O')">O</div><div class="key" onclick="handleInput('P')">P</div>
+            </div>
+            <div class="key-row">
+                <div class="key" onclick="handleInput('A')">A</div><div class="key" onclick="handleInput('S')">S</div><div class="key" onclick="handleInput('D')">D</div><div class="key" onclick="handleInput('F')">F</div><div class="key" onclick="handleInput('G')">G</div><div class="key" onclick="handleInput('H')">H</div><div class="key" onclick="handleInput('J')">J</div><div class="key" onclick="handleInput('K')">K</div><div class="key" onclick="handleInput('L')">L</div>
+            </div>
+            <div class="key-row">
+                <div class="key" style="min-width: 65px;" onclick="handleInput('ENTER')">ENTER</div>
+                <div class="key" onclick="handleInput('Z')">Z</div><div class="key" onclick="handleInput('X')">X</div><div class="key" onclick="handleInput('C')">C</div><div class="key" onclick="handleInput('V')">V</div><div class="key" onclick="handleInput('B')">B</div><div class="key" onclick="handleInput('N')">N</div><div class="key" onclick="handleInput('M')">M</div>
+                <div class="key" style="min-width: 65px;" onclick="handleInput('DEL')">DEL</div>
+            </div>
+        </div>
+        <p id="hint-text" style="margin-top: 20px; font-style: italic; color: #777;"></p>
+    </section>
+
+    <!-- PHASE 4: REVEAL -->
+    <section id="final-reveal" class="hidden" style="text-align: center; padding: 50px 0;">
+        <div id="final-grids" style="display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 30px;"></div>
+        <div id="typewriter" style="font-size: 24px; min-height: 40px; margin-bottom: 30px;"></div>
+        <button id="yes-btn" class="yes-btn hidden" onclick="finalize()">Yes</button>
+        <h1 id="valentine-msg" class="hidden" style="font-family:'UnifrakturMaguntia'; font-size: 60px; margin-top: 40px;">Happy Valentine's Day, Niv! ❤️</h1>
+    </section>
+
+    <script>
+        const puzzles = [
+            { word: "ILL", hint: "I'll..." },
+            { word: "BE", hint: "I'll __..." },
+            { word: "YOUR", hint: "I'll be ____..." },
+            { word: "VALENTINE", hint: "The whole phrase." }
+        ];
+
+        let currentIdx = 0;
+        let currentGuess = "";
+        let rowIdx = 0;
+        let solvedWords = [];
+
+        function goToLetter() {
+            document.getElementById('paper-container').classList.add('hidden');
+            document.getElementById('letter-container').classList.remove('hidden');
+            document.body.style.background = "#f4f4f4";
+        }
+
+        function startPuzzle() {
+            document.getElementById('letter-container').classList.add('hidden');
+            document.getElementById('puzzle-section').classList.remove('hidden');
+            loadGrid();
+        }
+
+        function loadGrid() {
+            const container = document.getElementById('grid-container');
+            container.innerHTML = "";
+            const word = puzzles[currentIdx].word;
+            document.getElementById('hint-text').innerText = "Context: " + puzzles[currentIdx].hint;
+            
+            for (let r = 0; r < 6; r++) {
+                const rowEl = document.createElement('div');
+                rowEl.className = 'wordle-row';
+                for (let c = 0; c < word.length; c++) {
+                    const tile = document.createElement('div');
+                    tile.className = 'tile';
+                    tile.id = `tile-${r}-${c}`;
+                    rowEl.appendChild(tile);
+                }
+                container.appendChild(rowEl);
+            }
+        }
+
+        function handleInput(key) {
+            const word = puzzles[currentIdx].word;
+            const row = document.querySelectorAll('.wordle-row')[rowIdx];
+            if (key === 'DEL' || key === 'BACKSPACE') {
+                currentGuess = currentGuess.slice(0, -1);
+            } else if (key === 'ENTER') {
+                if (currentGuess.length === word.length) submitGuess();
+            } else if (currentGuess.length < word.length && /^[A-Z]$/.test(key)) {
+                currentGuess += key;
+            }
+
+            const tiles = row.querySelectorAll('.tile');
+            tiles.forEach((t, i) => t.innerText = currentGuess[i] || "");
+        }
+
+        function submitGuess() {
+            const target = puzzles[currentIdx].word;
+            const guess = currentGuess;
+            const tiles = document.querySelectorAll('.wordle-row')[rowIdx].querySelectorAll('.tile');
+
+            tiles.forEach((tile, i) => {
+                setTimeout(() => {
+                    if (guess[i] === target[i]) tile.classList.add('correct');
+                    else if (target.includes(guess[i])) tile.classList.add('present');
+                    else tile.classList.add('absent');
+                }, i * 150);
+            });
+
+            setTimeout(() => {
+                if (guess === target) {
+                    solvedWords.push(target);
+                    if (currentIdx < puzzles.length - 1) {
+                        currentIdx++; rowIdx = 0; currentGuess = ""; loadGrid();
+                    } else { showFinalReveal(); }
+                } else {
+                    rowIdx++; currentGuess = "";
+                    if (rowIdx === 6) { alert("Try again!"); rowIdx = 0; loadGrid(); }
+                }
+            }, target.length * 150 + 200);
+        }
+
+        function showFinalReveal() {
+            document.getElementById('puzzle-section').classList.add('hidden');
+            const reveal = document.getElementById('final-reveal');
+            reveal.classList.remove('hidden');
+
+            solvedWords.forEach(word => {
+                const row = document.createElement('div');
+                row.className = 'wordle-row';
+                word.split('').forEach(char => {
+                    const t = document.createElement('div');
+                    t.className = 'tile correct'; t.innerText = char;
+                    t.style.width = '45px'; t.style.height = '45px';
+                    row.appendChild(t);
+                });
+                document.getElementById('final-grids').appendChild(row);
+            });
+
+            setTimeout(() => {
+                let i = 0; const txt = "Great! You're my valentine now.";
+                function type() {
+                    if (i < txt.length) {
+                        document.getElementById('typewriter').innerHTML += txt.charAt(i);
+                        i++; setTimeout(type, 60);
+                    } else { document.getElementById('yes-btn').classList.remove('hidden'); }
+                }
+                type();
+            }, 1000);
+        }
+
+        function finalize() {
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            document.getElementById('yes-btn').classList.add('hidden');
+            document.getElementById('valentine-msg').classList.remove('hidden');
+        }
+
+        window.addEventListener('keydown', (e) => handleInput(e.key.toUpperCase()));
+    </script>
+</body>
+</html>
