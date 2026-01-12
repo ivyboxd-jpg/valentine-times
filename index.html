@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>The Girlfriend Times</title>
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,700;1,700&family=Source+Sans+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,700;1,700&family=Open+Sans:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
@@ -15,8 +15,8 @@
             --wordle-present: #c9b458;
             --wordle-absent: #787c7e;
             --wordle-border: #d3d6da;
+            --wordle-font: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             --nyt-blue: #567b95;
-            --rule-color: #ebebeb;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -37,16 +37,17 @@
             background: var(--nyt-bg);
             padding: 20px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border: 1px solid #d1d1d1;
         }
 
         @media (min-width: 768px) {
-            #paper-container { margin: 40px auto; padding: 40px; }
+            #paper-container { margin: 40px auto; padding: 50px; }
         }
 
-        .masthead { text-align: center; border-bottom: 2px solid var(--nyt-black); }
+        .masthead { text-align: center; border-bottom: 2px solid var(--nyt-black); margin-bottom: 4px; }
         .masthead h1 {
             font-family: 'UnifrakturMaguntia', cursive;
-            font-size: clamp(45px, 12vw, 90px);
+            font-size: clamp(45px, 12vw, 95px);
             margin: 0; font-weight: 400;
         }
         .motto {
@@ -60,92 +61,114 @@
         }
 
         .main-headline {
-            font-size: clamp(28px, 6vw, 54px);
+            font-size: clamp(28px, 6vw, 58px);
             line-height: 1.05; text-align: center;
             font-weight: 700; margin-bottom: 15px;
+            letter-spacing: -1px;
         }
         .sub-headline {
-            font-size: clamp(16px, 3vw, 20px);
-            text-align: center; font-style: italic; color: #444;
-            margin-bottom: 30px; border-bottom: 1px solid var(--rule-color);
+            font-size: clamp(16px, 3vw, 22px);
+            text-align: center; font-style: italic; color: #333;
+            margin-bottom: 30px; border-bottom: 1px solid #ddd;
             padding-bottom: 20px;
+            max-width: 900px; margin-left: auto; margin-right: auto;
         }
 
-        /* 3-Column Layout */
         .article-grid {
-            display: grid; grid-template-columns: 1fr; gap: 30px;
+            display: grid; grid-template-columns: 1fr; gap: 35px;
         }
         @media (min-width: 768px) {
             .article-grid { grid-template-columns: 1fr 1fr 1fr; }
         }
 
-        .column { text-align: justify; font-size: 15px; }
+        .column { text-align: justify; font-size: 16px; color: #1a1a1a; }
         @media (min-width: 768px) {
-            .column:not(:last-child) { border-right: 1px solid var(--rule-color); padding-right: 25px; }
+            .column:not(:last-child) { border-right: 1px solid #ddd; padding-right: 25px; }
         }
 
         .dropcap {
-            float: left; font-size: 65px; line-height: 55px;
-            padding-right: 10px; font-weight: 700;
+            float: left; font-size: 75px; line-height: 60px;
+            padding-right: 12px; font-weight: 700; font-family: 'Playfair Display', serif;
         }
         .byline {
-            font-family: 'Source Sans Pro', sans-serif; font-weight: 700;
-            font-size: 11px; text-transform: uppercase; margin-bottom: 15px; display: block;
+            font-family: Arial, sans-serif; font-weight: bold;
+            font-size: 12px; text-transform: uppercase; margin-bottom: 15px; display: block;
         }
 
         .weather-box {
             border: 1px solid #000; padding: 15px; background: #fff; margin-top: 25px;
         }
         .weather-box h3 {
-            font-family: 'Source Sans Pro', sans-serif; font-size: 11px;
+            font-family: Arial, sans-serif; font-size: 11px;
             text-transform: uppercase; border-bottom: 1px solid #000; margin-bottom: 8px;
         }
 
         .turn-page {
             display: inline-block; margin-top: 40px; font-weight: 700;
             color: var(--nyt-blue); cursor: pointer; text-decoration: underline;
-            font-style: italic; font-size: 14px;
+            font-style: italic; font-size: 15px;
         }
 
-        /* --- PHASE 2: BRIDGE --- */
+        /* --- PHASE 2: LETTER --- */
         #letter-view {
             max-width: 600px; margin: 60px auto; background: white;
             padding: 40px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
         /* --- PHASE 3: PUZZLE --- */
-        #puzzle-view { max-width: 500px; margin: 0 auto; text-align: center; padding: 20px; }
+        #puzzle-view { 
+            max-width: 100%; margin: 0 auto; text-align: center; padding: 10px; 
+            font-family: var(--wordle-font);
+        }
         .wordle-title {
-            font-family: 'UnifrakturMaguntia', cursive; font-size: 40px; margin-bottom: 20px;
+            font-family: 'Playfair Display', serif; font-size: 36px; margin-bottom: 20px; font-weight: 700;
         }
+
+        /* DYNAMIC GRID - Ensures 9 letters fit on mobile */
+        .grid-container {
+            display: flex; flex-direction: column; gap: 6px; align-items: center; margin-bottom: 20px;
+        }
+        .wordle-row { display: flex; gap: 5px; }
+        
         .tile {
-            width: clamp(40px, 12vw, 55px); height: clamp(40px, 12vw, 55px);
-            border: 2px solid var(--wordle-border); display: flex;
-            align-items: center; justify-content: center; font-size: 1.8rem;
-            font-weight: bold; text-transform: uppercase; background: white;
-            font-family: 'Source Sans Pro', sans-serif;
+            /* This formula ensures 9 tiles fit on a 320px screen */
+            width: clamp(30px, 9vw, 60px); 
+            height: clamp(30px, 9vw, 60px);
+            border: 2px solid var(--wordle-border); 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: clamp(18px, 5vw, 32px); 
+            font-weight: 700; text-transform: uppercase; background: white;
+            font-family: var(--wordle-font);
+            transition: transform 0.3s ease;
         }
-        .keyboard { display: flex; flex-direction: column; gap: 8px; margin-top: 30px; }
-        .key-row { display: flex; justify-content: center; gap: 5px; }
+        
+        .tile.correct { background: var(--wordle-correct); border-color: var(--wordle-correct); color: white; }
+        .tile.present { background: var(--wordle-present); border-color: var(--wordle-present); color: white; }
+        .tile.absent { background: var(--wordle-absent); border-color: var(--wordle-absent); color: white; }
+
+        .keyboard { display: flex; flex-direction: column; gap: 8px; margin: 30px auto; max-width: 500px; }
+        .key-row { display: flex; justify-content: center; gap: 6px; width: 100%; }
         .key {
-            background: #d3d6da; flex: 1; height: 55px; border-radius: 4px;
+            background: #d3d6da; flex: 1; height: 58px; border-radius: 4px;
             display: flex; align-items: center; justify-content: center;
-            font-weight: bold; font-size: 14px; cursor: pointer;
+            font-weight: 700; font-size: 14px; cursor: pointer; user-select: none;
+            font-family: var(--wordle-font);
         }
-        .key.wide { flex: 1.6; }
+        .key.wide { flex: 1.5; font-size: 12px; }
 
         /* --- PHASE 4: REVEAL --- */
-        .final-font { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; }
+        .final-font { font-family: 'Playfair Display', serif; font-size: clamp(24px, 6vw, 36px); font-weight: 700; }
         .yes-btn {
             background: var(--nyt-blue); color: white; padding: 18px 60px;
             border: none; border-radius: 40px; font-size: 22px; cursor: pointer;
-            font-weight: bold; margin-top: 30px;
+            font-weight: bold; margin-top: 30px; transition: transform 0.2s;
         }
+        .yes-btn:hover { transform: scale(1.05); }
     </style>
 </head>
 <body>
 
-    <!-- PHASE 1: NEWSPAPER -->
+    <!-- PHASE 1: THE GIRLFRIEND TIMES -->
     <main id="paper-container">
         <header class="masthead">
             <h1>The Girlfriend Times</h1>
@@ -159,25 +182,25 @@
 
         <section id="news-content">
             <h1 class="main-headline">Man Credits Entire Personality to Woman Whose Instagram Story He Replied To</h1>
-            <p class="sub-headline">Scientific community baffled as one local man’s happiness levels exceed global averages following a single digital interaction.</p>
+            <p class="sub-headline">Social observers report a unprecedented case of "DM Luck" as local man Niv finds his world entirely transformed by Aaradhya.</p>
             
             <div class="article-grid">
                 <div class="column">
-                    <span class="byline">By NIV (Chief Romantic Correspondent)</span>
-                    <p><span class="dropcap">I</span>n a Monday morning report that has stunned social observers, local man Niv has officially confirmed that his entire life trajectory shifted the moment he hit 'send' on a reply to Aaradhya's Instagram story.</p>
-                    <p>"I wasn’t even planning on it," Niv reported while being interviewed at a coffee shop. "One moment I was just scrolling, and the next thing I knew, my life had purpose. It's the best decision I've ever made, hands down."</p>
-                    <p>Experts suggest that this "DM effect" is responsible for Niv's constant smiling and improved taste in music.</p>
+                    <span class="byline">By NIV (Chief Editorial Writer)</span>
+                    <p><span class="dropcap">I</span>n a Monday morning report that has sent ripples through the digital dating community, local man Niv has officially confirmed that hitting 'send' on an Instagram reply was the single greatest executive decision of his adult life.</p>
+                    <p>"I wasn't even planning on it," Niv remarked in a sit-down interview. "One moment I was just scrolling, and the next, I was looking at Aaradhya's story. It felt like the universe was giving me a very obvious hint."</p>
+                    <p>Experts suggest that this specific interaction has led to Niv's 400% increase in overall life satisfaction and constant, inexplicable smiling.</p>
                 </div>
                 <div class="column">
-                    <p>Witnesses confirm that <strong>Aaradhya</strong> is "way too good for him" but has inexplicably decided to stick around anyway. Her decision to stay has been met with universal acclaim from his friends and eternal gratitude from Niv himself.</p>
-                    <p>“She brings a level of brilliance and radiance to the table that he frankly wasn't prepared for,” said one observer. “It’s a miracle of modern dating.”</p>
-                    <p>The relationship, which began with a simple DM, has since evolved into what is being described as "genuinely very sweet" and "honestly kind of impressive given the distance."</p>
+                    <p>Witnesses confirm that <strong>Aaradhya</strong> remains "absurdly out of Niv's league," a fact that the man himself acknowledges in almost every public statement. However, much to the delight of friends and family, she has decided to stick around anyway.</p>
+                    <p>“She brings a level of class and radiance to his life that honestly, we didn't think he could handle,” said one long-time associate. “It’s a miracle of the modern age.”</p>
+                    <p>The relationship has evolved into what experts call "genuinely very sweet" and "honestly kind of impressive given the distance."</p>
                 </div>
                 <div class="column">
-                    <p>Meanwhile, rumors are circulating about a hidden message intended for Aaradhya. Insiders suggest that to find it, she must navigate through the paper's interactive back section.</p>
+                    <p>Rumors continue to circulate regarding a secret puzzle hidden within the newspaper's archives. Some say it contains a request that only Aaradhya can answer.</p>
                     <div class="weather-box">
                         <h3>Today's Forecast</h3>
-                        <p><strong>BRIGHT:</strong> 100% chance of a special question. Highs of 72, lows of zero regrets.</p>
+                        <p><strong>BRIGHT:</strong> 100% chance of a special message. Winds of change blowing towards Page 2.</p>
                     </div>
                     <span class="turn-page" onclick="showLetter()">Turn to Page 2, Editorial →</span>
                 </div>
@@ -185,13 +208,13 @@
         </section>
     </main>
 
-    <!-- PHASE 2: BRIDGE -->
+    <!-- PHASE 2: LETTER -->
     <section id="letter-view" class="hidden">
-        <div style="font-size: 18px; line-height: 1.8;">
+        <div style="font-size: 19px; line-height: 1.8;">
             <p>Dearest Aaradhya,</p>
             <br>
-            <p>I know it’s just a regular Monday, but looking at you makes every day feel like front-page news. I wanted to create something that captures how lucky I feel to have replied to that story.</p>
-            <p>If you turn to the back page, you’ll find our Daily Connection puzzle. I’ve hidden a very specific request for you there.</p>
+            <p>I know it’s just a regular Monday, but looking at you makes every day feel like front-page news. I wanted to create something that captures how lucky I feel to have you in my life.</p>
+            <p>If you turn to the back page, you’ll find our Daily Connection puzzle. I’ve hidden a very specific message for you there.</p>
             <br>
             <p>Yours always,</p>
             <p><strong>— Niv</strong></p>
@@ -203,8 +226,8 @@
     <!-- PHASE 3: PUZZLE -->
     <section id="puzzle-view" class="hidden">
         <h2 class="wordle-title">The Daily Connection</h2>
-        <div id="grid-container" style="display:flex; flex-direction:column; gap:5px; align-items:center; margin-bottom:20px;"></div>
-        <p id="hint-text" style="font-weight: bold; color: var(--nyt-blue); margin-bottom: 15px; font-family: 'Source Sans Pro';"></p>
+        <div id="grid-container" class="grid-container"></div>
+        <p id="hint-text" style="font-weight: 700; color: var(--nyt-blue); margin-bottom: 20px; font-family: var(--wordle-font);"></p>
 
         <div class="keyboard">
             <div class="key-row">
@@ -227,17 +250,17 @@
         <div id="typewriter" class="final-font"></div>
         <button id="yes-btn" class="yes-btn hidden" onclick="celebrate()">Confirm ❤️</button>
         <div id="love-msg" class="hidden">
-            <h1 class="final-font" style="font-size: 50px; margin-top: 30px;">See you soon!</h1>
-            <p style="margin-top:10px; font-style: italic;">From Niv, with love.</p>
+            <h1 class="final-font" style="font-size: 52px; margin-top: 30px;">See you soon, Aaradhya!</h1>
+            <p style="margin-top:15px; font-style: italic; font-size: 18px;">From Niv, with all my love.</p>
         </div>
     </section>
 
     <script>
         const puzzles = [
-            { word: "I", hint: "Just one letter..." },
-            { word: "WILL", hint: "Next word..." },
-            { word: "BE", hint: "To exist..." },
-            { word: "YOUR", hint: "Belonging to you..." },
+            { word: "I", hint: "The story begins with..." },
+            { word: "WILL", hint: "The second word..." },
+            { word: "BE", hint: "The third word..." },
+            { word: "YOUR", hint: "The fourth word..." },
             { word: "VALENTINE", hint: "The final sweetheart word." }
         ];
 
@@ -266,7 +289,7 @@
             
             for (let r = 0; r < 6; r++) {
                 const row = document.createElement('div');
-                row.className = 'key-row';
+                row.className = 'wordle-row';
                 for (let c = 0; c < word.length; c++) {
                     const tile = document.createElement('div');
                     tile.className = 'tile';
@@ -279,25 +302,34 @@
 
         function press(key) {
             const word = puzzles[currentIdx].word;
-            if (key === 'DEL') {
+            if (key === 'DEL' || key === 'BACKSPACE') {
                 currentGuess = currentGuess.slice(0, -1);
             } else if (key === 'ENTER') {
                 if (currentGuess.length === word.length) submitGuess();
             } else if (currentGuess.length < word.length && /^[A-Z]$/.test(key)) {
                 currentGuess += key;
             }
-            const tiles = document.querySelectorAll('.tile');
-            const rowTiles = Array.from(tiles).slice(rowIdx * word.length, (rowIdx + 1) * word.length);
-            rowTiles.forEach((t, i) => t.innerText = currentGuess[i] || "");
+            updateTiles();
+        }
+
+        function updateTiles() {
+            const wordLen = puzzles[currentIdx].word.length;
+            for (let i = 0; i < wordLen; i++) {
+                const tile = document.getElementById(`tile-${rowIdx}-${i}`);
+                if (tile) {
+                    tile.innerText = currentGuess[i] || "";
+                    tile.style.borderColor = currentGuess[i] ? "#878a8c" : "#d3d6da";
+                }
+            }
         }
 
         function submitGuess() {
             const target = puzzles[currentIdx].word;
             const guess = currentGuess;
             const wordLen = target.length;
-            const tiles = Array.from(document.querySelectorAll('.tile')).slice(rowIdx * wordLen, (rowIdx + 1) * wordLen);
-
-            tiles.forEach((tile, i) => {
+            
+            for (let i = 0; i < wordLen; i++) {
+                const tile = document.getElementById(`tile-${rowIdx}-${i}`);
                 setTimeout(() => {
                     tile.style.transform = "rotateX(90deg)";
                     setTimeout(() => {
@@ -307,7 +339,7 @@
                         tile.style.transform = "rotateX(0deg)";
                     }, 150);
                 }, i * 150);
-            });
+            }
 
             setTimeout(() => {
                 if (guess === target) {
@@ -317,7 +349,7 @@
                     } else { showReveal(); }
                 } else {
                     rowIdx++; currentGuess = "";
-                    if (rowIdx === 6) { alert("Try again!"); rowIdx = 0; initGrid(); }
+                    if (rowIdx === 6) { alert("Try again, Aaradhya!"); rowIdx = 0; initGrid(); }
                 }
             }, wordLen * 150 + 400);
         }
@@ -326,24 +358,25 @@
             document.getElementById('puzzle-view').classList.add('hidden');
             document.getElementById('final-view').classList.remove('hidden');
             const stack = document.getElementById('stack-container');
+            
             solvedWords.forEach(word => {
                 const row = document.createElement('div');
                 row.style.display = 'flex'; row.style.gap = '5px';
                 word.split('').forEach(char => {
                     const t = document.createElement('div');
                     t.className = 'tile correct'; t.innerText = char;
-                    t.style.width = '35px'; t.style.height = '35px'; t.style.fontSize = '1.2rem';
+                    t.style.width = '35px'; t.style.height = '35px'; t.style.fontSize = '1.1rem';
                     row.appendChild(t);
                 });
                 stack.appendChild(row);
             });
 
             setTimeout(() => {
-                let i = 0; const txt = "So, Aaradhya... what do you say?";
+                let i = 0; const txt = "So, Aaradhya... will you?";
                 function type() {
                     if (i < txt.length) {
                         document.getElementById('typewriter').innerHTML += txt.charAt(i);
-                        i++; setTimeout(type, 50);
+                        i++; setTimeout(type, 60);
                     } else { document.getElementById('yes-btn').classList.remove('hidden'); }
                 }
                 type();
@@ -351,7 +384,7 @@
         }
 
         function celebrate() {
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+            confetti({ particleCount: 180, spread: 80, origin: { y: 0.6 }, colors: ['#6aaa64', '#567b95', '#fdfcf0'] });
             document.getElementById('yes-btn').classList.add('hidden');
             document.getElementById('love-msg').classList.remove('hidden');
             document.getElementById('typewriter').style.opacity = "0.5";
