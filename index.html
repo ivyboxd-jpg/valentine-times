@@ -47,7 +47,7 @@
             max-width: 1100px;
             margin: 10px auto;
             background: var(--nyt-bg);
-            padding: 25px;
+            padding: 20px;
             box-shadow: 0 10px 50px rgba(0,0,0,0.2);
             border: 1px solid #c0c0c0;
             position: relative;
@@ -82,17 +82,23 @@
             font-weight: 700;
         }
 
+        /* FIXED DATE BAR SPACING */
         .date-bar {
             display: flex; 
             justify-content: space-between; 
-            font-size: 12px;
-            padding: 6px 10px; 
-            border-bottom: 4px double var(--nyt-black); /* Authentic NYT Oxford rule */
+            align-items: center;
+            font-size: 10px;
+            padding: 6px 0; 
+            border-bottom: 4px double var(--nyt-black); /* Authentic NYT rule */
             font-weight: 700; 
             margin-bottom: 35px;
             font-family: Arial, sans-serif;
             text-transform: uppercase;
         }
+
+        .date-bar span { flex: 1; }
+        .date-bar .date-center { flex: 2; text-align: center; font-size: 11px; }
+        .date-bar .price-right { text-align: right; }
 
         .main-headline {
             font-family: 'Playfair Display', serif;
@@ -100,31 +106,32 @@
             line-height: 1.05; 
             text-align: center;
             font-weight: 700; 
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             letter-spacing: -1.8px;
             padding: 0 15px;
         }
 
+        /* IMPROVED ARTICLE GRID SPACING */
         .article-grid {
             display: grid; 
             grid-template-columns: 1fr; 
-            gap: 45px; /* Increased gutter spacing */
+            gap: 40px; 
         }
         
         @media (min-width: 768px) {
-            .article-grid { grid-template-columns: 1.25fr 1fr 0.85fr; }
+            .article-grid { grid-template-columns: 1.2fr 1fr 0.8fr; }
         }
 
-        .column { text-align: justify; font-size: 16px; line-height: 1.65; }
+        .column { text-align: justify; font-size: 15.5px; line-height: 1.6; }
         
         @media (min-width: 768px) {
-            .column:not(:last-child) { border-right: 1px solid #ddd; padding-right: 35px; }
+            .column:not(:last-child) { border-right: 1px solid #ddd; padding-right: 25px; }
         }
 
         .dropcap {
             float: left; 
-            font-size: 82px; 
-            line-height: 64px;
+            font-size: 75px; 
+            line-height: 60px;
             padding-top: 4px;
             padding-right: 12px; 
             font-weight: 700; 
@@ -142,15 +149,13 @@
             padding-bottom: 8px;
         }
 
-        /* Niche Content Boxes */
         .correction-box {
-            font-size: 12.5px; 
+            font-size: 12px; 
             font-style: italic; 
             background: rgba(0,0,0,0.02);
-            padding: 15px; 
+            padding: 12px; 
             border: 1px solid #ddd; 
             margin-bottom: 25px;
-            line-height: 1.4;
         }
         
         .classifieds { 
@@ -208,35 +213,34 @@
             font-family: 'Dancing Script', cursive; 
             font-size: 36px; 
             color: #2c3e50; 
-            margin-top: 20px; 
+            margin-top: 15px; 
         }
 
-        /* --- PHASE 3: WORDLE --- */
+        /* --- PHASE 3: THE PUZZLE --- */
         #puzzle-view { 
             max-width: 100%; 
             margin: 0 auto; 
             text-align: center; 
-            padding: 20px; 
+            padding: 10px; 
         }
         
         .wordle-title { 
             font-family: 'Playfair Display', serif; 
-            font-size: 38px; 
-            margin-bottom: 25px; 
+            font-size: 34px; 
+            margin-bottom: 20px; 
             font-weight: 700; 
         }
         
         .grid-container { 
             display: flex; 
             flex-direction: column; 
-            gap: 8px; 
+            gap: 6px; 
             align-items: center; 
-            margin-bottom: 30px; 
+            margin-bottom: 20px; 
         }
         
-        .wordle-row { display: flex; gap: 6px; }
+        .wordle-row { display: flex; gap: 4px; }
         
-        /* THE TILE: Perfect 9-letter fit */
         .tile {
             width: clamp(30px, 9.4vw, 55px); 
             height: clamp(30px, 9.4vw, 55px);
@@ -244,7 +248,7 @@
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            font-size: clamp(20px, 5.5vw, 32px); 
+            font-size: clamp(18px, 5vw, 30px); 
             font-weight: 700; 
             text-transform: uppercase; 
             background: white;
@@ -259,34 +263,34 @@
         .keyboard { 
             display: flex; 
             flex-direction: column; 
-            gap: 10px; 
-            margin: 40px auto; 
+            gap: 8px; 
+            margin: 30px auto; 
             max-width: 500px; 
             padding: 0 5px; 
         }
         
-        .key-row { display: flex; justify-content: center; gap: 8px; }
+        .key-row { display: flex; justify-content: center; gap: 6px; }
         
         .key {
             background: #d3d6da; 
             flex: 1; 
-            height: 60px; 
+            height: 58px; 
             border-radius: 4px;
             display: flex; 
             align-items: center; 
             justify-content: center;
             font-weight: 700; 
-            font-size: 14px; 
+            font-size: 13px; 
             cursor: pointer; 
             font-family: var(--wordle-font);
         }
         
-        .key.wide { flex: 1.5; font-size: 12px; }
+        .key.wide { flex: 1.5; font-size: 11px; }
 
         /* --- PHASE 4: REVEAL --- */
         .final-msg { 
             font-family: 'Playfair Display', serif; 
-            font-size: clamp(26px, 6vw, 42px); 
+            font-size: clamp(24px, 6vw, 38px); 
             font-weight: 700; 
         }
         
@@ -294,29 +298,27 @@
             font-size: 14px; 
             color: #666; 
             font-style: italic; 
-            margin-top: 20px; 
+            margin-top: 15px; 
             font-family: 'Libre Baskerville'; 
         }
         
         .yes-btn {
             background: var(--nyt-blue); 
             color: white; 
-            padding: 16px 70px;
+            padding: 15px 60px;
             border: none; 
-            border-radius: 40px; 
-            font-size: 24px; 
+            border-radius: 30px; 
+            font-size: 22px; 
             cursor: pointer;
             font-weight: bold; 
-            margin-top: 35px;
-            transition: 0.2s;
+            margin-top: 30px;
         }
-        .yes-btn:hover { background: #456278; }
 
         /* Coffee Stain */
         .coffee-stain {
             position: absolute; 
-            width: 110px; 
-            height: 110px;
+            width: 100px; 
+            height: 100px;
             background: radial-gradient(circle, rgba(111, 78, 55, 0.15) 0%, transparent 75%);
             border-radius: 50%; 
             pointer-events: none; 
@@ -330,11 +332,11 @@
     <main id="paper-container">
         <header class="masthead">
             <h1>The Girlfriend Times</h1>
-            <div class="motto">All the Love That's Fit to Print</div>
+            <div class="motto">"All the Love That's Fit to Print"</div>
             <div class="date-bar">
                 <span>Niv Edition</span>
-                <span>Monday, January 12, 2026</span>
-                <span>Price: One Kiss</span>
+                <span class="date-center">Monday, January 12, 2026</span>
+                <span class="price-right">Price: One Kiss</span>
             </div>
         </header>
 
@@ -359,14 +361,14 @@
 
                 <div class="column">
                     <div class="side-widget">
-                        <h3 style="border-bottom: 1px solid #000; margin-bottom: 8px;">HOROSCOPE</h3>
-                        <p style="font-size: 13px; line-height: 1.5;"><strong>VIRGO:</strong> A digital puzzle on the back page will reveal a significant message today. Pay close attention to the green tiles; a confirmation is imminent.</p>
+                        <h3 style="border-bottom: 1px solid #000; margin-bottom: 5px;">HOROSCOPE</h3>
+                        <p style="font-size: 13px;"><strong>VIRGO:</strong> A digital puzzle on the back page will reveal a significant message today. Don't overthink the green tiles.</p>
                     </div>
                     
                     <div class="classifieds">
                         <div class="classified-item"><b>WANTED:</b> Someone to spend every Monday morning with. <b>FOUND:</b> Aaradhya.</div>
                         <div class="classified-item"><b>LOST:</b> Niv's ability to act normal when she's around. <b>REWARD:</b> Her smile.</div>
-                        <div class="classified-item"><b>PUBLIC NOTICE:</b> Niv is the luckiest man in the 500 area code.</div>
+                        <div class="classified-item"><b>PUBLIC NOTICE:</b> Niv is the luckiest man in the 212 area code.</div>
                     </div>
 
                     <div class="side-widget">
@@ -385,11 +387,11 @@
         <div style="font-size: 19px; line-height: 1.8;">
             <p>Dear Aaradhya,</p>
             <br>
-            <p>I know it’s just a regular Monday, but looking at you makes every day feel like front-page news. I wanted to make something that captures how lucky I feel to have you in my life.</p>
-            <p>If you turn to the back page, you’ll find our Daily Connection puzzle. I have a very specific message for you there.</p>
+            <p>i know it’s just a regular monday, but looking at you makes every day feel like front-page news. i wanted to make something that captures how lucky i feel to have you in my life.</p>
+            <p>if you turn to the back page, you’ll find our daily connection puzzle. i have a very specific message for you there.</p>
             <br>
-            <p>Yours always,</p>
-            <div class="signature">Niv</div>
+            <p>yours always,</p>
+            <div class="signature">niv</div>
             <br>
             <span class="turn-page" onclick="toPuzzle()">Solve "The Daily Connection" →</span>
         </div>
@@ -399,7 +401,7 @@
     <section id="puzzle-view" class="hidden">
         <h2 class="wordle-title">The Daily Connection</h2>
         <div id="grid-container" class="grid-container"></div>
-        <p id="hint-text" style="font-weight: 700; color: var(--nyt-blue); height: 20px; margin-bottom: 25px; font-family: var(--wordle-font); font-size: 14px;"></p>
+        <p id="hint-text" style="font-weight: 700; color: var(--nyt-blue); height: 20px; margin-bottom: 20px; font-family: var(--wordle-font); font-size: 14px;"></p>
 
         <div class="keyboard">
             <div class="key-row"><div class="key" onclick="press('Q')">Q</div><div class="key" onclick="press('W')">W</div><div class="key" onclick="press('E')">E</div><div class="key" onclick="press('R')">R</div><div class="key" onclick="press('T')">T</div><div class="key" onclick="press('Y')">Y</div><div class="key" onclick="press('U')">U</div><div class="key" onclick="press('I')">I</div><div class="key" onclick="press('O')">O</div><div class="key" onclick="press('P')">P</div></div>
@@ -543,7 +545,7 @@
         function addInk(e) {
             const stain = document.createElement('div');
             stain.className = 'coffee-stain';
-            stain.style.left = (e.pageX - 55) + 'px'; stain.style.top = (e.pageY - 55) + 'px';
+            stain.style.left = (e.pageX - 50) + 'px'; stain.style.top = (e.pageY - 50) + 'px';
             document.body.appendChild(stain);
             setTimeout(() => stain.remove(), 5000);
         }
