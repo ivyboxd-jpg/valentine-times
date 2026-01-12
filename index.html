@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>the girlfriend times</title>
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,700;1,700&family=Open+Sans:wght@600;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+    <title>The Girlfriend Times</title>
+    <!-- NYT Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,700;1,700&family=Open+Sans:wght@600;700&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
@@ -17,13 +17,12 @@
             --wordle-border: #d3d6da;
             --wordle-font: 'Open Sans', Helvetica, Arial, sans-serif;
             --nyt-blue: #567b95;
-            --rule-color: #d1d1d1;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
         body {
-            background-color: #d1d1d1;
+            background-color: #d8d8d8;
             color: var(--nyt-black);
             font-family: 'Libre Baskerville', serif;
             line-height: 1.6;
@@ -32,165 +31,159 @@
 
         .hidden { display: none !important; }
 
-        /* Paper Texture Overlay */
+        /* Paper Overlay Texture */
         body::before {
             content: "";
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
-            opacity: 0.3;
+            opacity: 0.35;
             pointer-events: none;
-            z-index: 100;
+            z-index: 1000;
         }
 
         /* --- PHASE 1: THE NEWSPAPER --- */
         #paper-container {
-            max-width: 1100px;
-            margin: 15px auto;
+            max-width: 1050px;
+            margin: 10px auto;
             background: var(--nyt-bg);
-            padding: 25px;
+            padding: 20px;
             box-shadow: 0 10px 50px rgba(0,0,0,0.2);
+            border: 1px solid #c0c0c0;
             position: relative;
-            min-height: 95vh;
-            border: 1px solid #b5b5b5;
         }
 
         @media (min-width: 768px) {
             #paper-container { margin: 40px auto; padding: 50px; }
         }
 
-        .masthead { text-align: center; border-bottom: 2px solid var(--nyt-black); padding-bottom: 5px; }
+        .masthead { text-align: center; border-bottom: 2px solid var(--nyt-black); margin-bottom: 4px; }
         .masthead h1 {
             font-family: 'UnifrakturMaguntia', cursive;
             font-size: clamp(45px, 12vw, 100px);
-            margin-bottom: -10px; font-weight: 400;
+            margin: 0; font-weight: 400;
         }
         .motto {
             font-size: 11px; text-align: center; border-bottom: 1px solid var(--nyt-black);
-            padding: 5px 0; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
+            padding: 5px 0; text-transform: uppercase; letter-spacing: 2px;
         }
         .date-bar {
             display: flex; justify-content: space-between; font-size: 11px;
-            padding: 6px 0; border-bottom: 3px double var(--nyt-black);
-            font-weight: bold; margin-bottom: 30px; font-family: Arial, sans-serif;
+            padding: 5px 0; border-bottom: 3px double var(--nyt-black);
+            font-weight: bold; margin-bottom: 25px;
         }
 
         .main-headline {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(28px, 6vw, 62px);
+            font-size: clamp(28px, 6vw, 56px);
             line-height: 1.05; text-align: center;
-            font-weight: 700; margin-bottom: 15px;
+            font-weight: 700; margin-bottom: 20px;
             letter-spacing: -1.5px;
         }
 
-        .sub-headline {
-            font-size: clamp(16px, 3vw, 22px);
-            text-align: center; font-style: italic; color: #333;
-            margin-bottom: 35px; border-bottom: 1px solid var(--rule-color);
-            padding-bottom: 20px; max-width: 85%; margin-left: auto; margin-right: auto;
+        .article-grid {
+            display: grid; grid-template-columns: 1fr; gap: 30px;
         }
-
-        /* Newspaper Columns */
-        .article-grid { display: grid; grid-template-columns: 1fr; gap: 40px; }
         @media (min-width: 768px) {
-            .article-grid { grid-template-columns: 1.1fr 1fr 0.9fr; }
+            .article-grid { grid-template-columns: 1.2fr 1fr 0.8fr; }
         }
 
         .column { text-align: justify; font-size: 15.5px; }
         @media (min-width: 768px) {
-            .column:not(:last-child) { border-right: 1px solid var(--rule-color); padding-right: 25px; }
+            .column:not(:last-child) { border-right: 1px solid #ddd; padding-right: 25px; }
         }
 
         .dropcap {
             float: left; font-size: 75px; line-height: 60px;
             padding-right: 12px; font-weight: 700; font-family: 'Playfair Display', serif;
         }
+
         .byline {
-            font-family: Arial, sans-serif; font-weight: bold; font-size: 12px;
-            text-transform: uppercase; margin-bottom: 15px; display: block;
+            font-family: Arial, sans-serif; font-weight: bold; font-size: 11px;
+            text-transform: uppercase; margin-bottom: 12px; display: block;
             border-bottom: 1px solid #eee; padding-bottom: 5px;
         }
 
-        /* Niche Details */
+        /* Niche Content Boxes */
         .correction-box {
-            font-size: 12px; font-style: italic; background: rgba(0,0,0,0.03);
-            padding: 12px; border: 1px solid #ddd; margin-bottom: 20px; line-height: 1.4;
+            font-size: 12px; font-style: italic; background: rgba(0,0,0,0.02);
+            padding: 12px; border: 1px solid #ddd; margin-bottom: 20px;
         }
         .classifieds { border-top: 2px solid #000; margin-top: 20px; padding-top: 10px; }
-        .classified-title { font-size: 11px; font-weight: 900; text-transform: uppercase; margin-bottom: 8px; }
         .classified-item { font-size: 12px; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
         .classified-item b { font-size: 10px; text-transform: uppercase; color: #444; }
 
-        .weather-widget {
-            border: 1px solid #000; padding: 12px; background: #fff; margin-top: 25px;
+        .side-widget {
+            border: 1px solid #000; padding: 12px; background: #fff; margin-top: 20px;
         }
-        .weather-widget h4 { font-family: Arial, sans-serif; font-size: 10px; border-bottom: 1px solid #000; margin-bottom: 5px; text-transform: uppercase; }
-
-        .page-link {
-            display: inline-block; margin-top: 35px; font-weight: 700; color: var(--nyt-blue);
-            cursor: pointer; text-decoration: underline; font-style: italic; font-size: 15px;
+        .side-widget h3 {
+            font-family: Arial, sans-serif; font-size: 11px;
+            text-transform: uppercase; border-bottom: 1px solid #000; margin-bottom: 6px;
         }
 
-        /* --- PHASE 2: EDITORIAL --- */
+        .turn-page {
+            display: inline-block; margin-top: 35px; font-weight: 700;
+            color: var(--nyt-blue); cursor: pointer; text-decoration: underline;
+            font-style: italic; font-size: 15px;
+        }
+
+        /* --- PHASE 2: LETTER --- */
         #letter-view {
             max-width: 600px; margin: 60px auto; background: white;
-            padding: 50px; box-shadow: 0 5px 30px rgba(0,0,0,0.1); border: 1px solid #eee;
+            padding: 40px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-radius: 2px;
         }
-        .signature { font-family: 'Caveat', cursive; font-size: 36px; color: #222; margin-top: 15px; }
+        .signature { font-family: 'Dancing Script', cursive; font-size: 32px; color: #2c3e50; margin-top: 15px; }
 
         /* --- PHASE 3: WORDLE --- */
         #puzzle-view { max-width: 100%; margin: 0 auto; text-align: center; padding: 10px; }
-        .wordle-header { font-family: 'Playfair Display', serif; font-size: 34px; font-weight: 700; margin-bottom: 10px; }
+        .wordle-title { font-family: 'Playfair Display', serif; font-size: 34px; margin-bottom: 20px; font-weight: 700; }
         
-        .grid-container { display: flex; flex-direction: column; gap: 6px; align-items: center; margin: 20px 0; }
-        .wordle-row { display: flex; gap: 5px; }
+        .grid-container { display: flex; flex-direction: column; gap: 6px; align-items: center; margin-bottom: 20px; }
+        .wordle-row { display: flex; gap: 4px; }
         
-        /* THE TILE: Sized specifically to fit 9 letters on mobile */
+        /* THE TILE: Perfect 9-letter fit */
         .tile {
-            width: clamp(32px, 9.2vw, 58px); 
-            height: clamp(32px, 9.2vw, 58px);
-            border: 2px solid var(--wordle-border);
-            display: flex; align-items: center; justify-content: center;
-            font-size: clamp(18px, 5.5vw, 30px);
-            font-weight: 700; text-transform: uppercase;
+            width: clamp(30px, 9.4vw, 55px); 
+            height: clamp(30px, 9.4vw, 55px);
+            border: 2px solid var(--wordle-border); 
+            display: flex; align-items: center; justify-content: center; 
+            font-size: clamp(18px, 5vw, 30px); 
+            font-weight: 700; text-transform: uppercase; background: white;
             font-family: var(--wordle-font);
-            transition: transform 0.4s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+            transition: transform 0.4s;
         }
         
         .tile.correct { background: var(--wordle-correct); border-color: var(--wordle-correct); color: white; }
         .tile.present { background: var(--wordle-present); border-color: var(--wordle-present); color: white; }
         .tile.absent { background: var(--wordle-absent); border-color: var(--wordle-absent); color: white; }
 
-        .keyboard { max-width: 500px; margin: 30px auto; display: flex; flex-direction: column; gap: 8px; padding: 0 5px; }
+        .keyboard { display: flex; flex-direction: column; gap: 8px; margin: 30px auto; max-width: 500px; padding: 0 5px; }
         .key-row { display: flex; justify-content: center; gap: 6px; }
         .key {
             background: #d3d6da; flex: 1; height: 58px; border-radius: 4px;
             display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 13px; cursor: pointer; user-select: none;
-            font-family: var(--wordle-font);
+            font-weight: 700; font-size: 13px; cursor: pointer; font-family: var(--wordle-font);
         }
         .key.wide { flex: 1.5; font-size: 11px; }
 
-        /* --- PHASE 4: FINAL REVEAL --- */
-        #final-view { text-align: center; padding: 60px 20px; }
-        .final-msg { font-family: 'Playfair Display', serif; font-size: clamp(22px, 5.5vw, 38px); font-weight: 700; margin-bottom: 10px; }
-        .tiny-footer { font-size: 14px; color: #666; font-style: italic; margin-top: 20px; font-family: 'Libre Baskerville'; }
-        
+        /* --- PHASE 4: REVEAL --- */
+        .final-msg { font-family: 'Playfair Display', serif; font-size: clamp(24px, 6vw, 38px); font-weight: 700; }
+        .footer-credit { font-size: 14px; color: #666; font-style: italic; margin-top: 15px; font-family: 'Libre Baskerville'; }
         .yes-btn {
-            background: var(--nyt-blue); color: white; padding: 18px 60px;
-            border: none; border-radius: 40px; font-size: 22px; cursor: pointer;
-            font-weight: bold; margin-top: 30px; transition: 0.3s;
+            background: var(--nyt-blue); color: white; padding: 15px 60px;
+            border: none; border-radius: 30px; font-size: 22px; cursor: pointer;
+            font-weight: bold; margin-top: 30px;
         }
 
-        /* Ink Stain Interaction */
-        .ink-stain {
-            position: absolute; width: 120px; height: 120px;
-            background: radial-gradient(circle, rgba(111, 78, 55, 0.12) 0%, transparent 75%);
+        /* Coffee Stain */
+        .coffee-stain {
+            position: absolute; width: 100px; height: 100px;
+            background: radial-gradient(circle, rgba(111, 78, 55, 0.15) 0%, transparent 75%);
             border-radius: 50%; pointer-events: none; z-index: 10;
         }
     </style>
 </head>
-<body onclick="createInk(event)">
+<body onclick="addInk(event)">
 
     <!-- PHASE 1: NEWSPAPER -->
     <main id="paper-container">
@@ -206,44 +199,47 @@
 
         <section id="news-content">
             <h1 class="main-headline">Man Credits Entire Personality to Woman Whose Instagram Story He Replied To</h1>
-            <p class="sub-headline">National Analysis: How a single digital notification on a quiet evening resulted in the total transformation of one local man's world.</p>
             
             <div class="article-grid">
                 <div class="column">
                     <span class="byline">By THE LOVE DESK (Niv reporting)</span>
                     <div class="correction-box">
-                        <strong>Correction:</strong> An earlier version of this report suggested Niv was "playing it cool" during the initial DM exchange. Close sources have since clarified he was actually checking his phone every 45 seconds.
+                        <strong>Correction:</strong> An earlier version of this report suggested the man was "playing it cool." Close sources have since clarified he was actually screaming internally while waiting for a reply.
                     </div>
-                    <p><span class="dropcap">I</span>n a Monday morning report that has sent ripples through the digital dating community, local man Niv has officially confirmed that hitting 'send' on an Instagram reply was the single greatest decision of his adult life.</p>
-                    <p>"I wasn't even planning on it," Niv remarked. "One moment I was just reading her poems, and the next, I was looking at Aaradhya's story. It felt like the universe was giving me a very obvious hint, and for once, I actually took it."</p>
+                    <p><span class="dropcap">I</span>n a story that has stunned the digital dating community, local man Niv has officially confirmed that hitting 'send' on an Instagram reply was the single greatest executive decision of his adult life.</p>
+                    <p>"I wasn't even planning on it," Niv remarked in a sit-down interview. "One moment I was just scrolling, and the next, I was looking at Aaradhya's story. It felt like the universe was giving me a hint."</p>
                 </div>
                 
                 <div class="column">
                     <p>Witnesses confirm that <strong>Aaradhya</strong> remains "absurdly out of Niv's league," a fact that Niv acknowledges in nearly every public statement. However, much to the delight of the general public, she has decided to stick around anyway.</p>
-                    <p>“She brings a level of class and radiance to his life that honestly, we didn't think he could handle,” said one associate. “It’s a miracle of the modern age. His aesthetic, his mood, and his Spotify playlists have all improved by 400%.”</p>
-                    <p>The relationship has since evolved into what relationship experts call "genuinely very sweet" and "perfectly balanced."</p>
+                    <p>“She brings a level of class and radiance to his life that honestly, we didn't think he could handle,” said one associate. “It’s a miracle of the modern age. His aesthetic and mood have improved by 400%.”</p>
+                    <p>The relationship has since evolved into what relationship experts are calling "genuinely very sweet" and "perfectly balanced."</p>
                 </div>
 
                 <div class="column">
+                    <div class="side-widget">
+                        <h3 style="border-bottom: 1px solid #000; margin-bottom: 5px;">HOROSCOPE</h3>
+                        <p style="font-size: 13px;"><strong>CAPRICORN:</strong> A digital puzzle on the back page will reveal a significant message today. Don't overthink the green tiles.</p>
+                    </div>
+                    
                     <div class="classifieds">
-                        <div class="classified-title">Classifieds</div>
                         <div class="classified-item"><b>WANTED:</b> Someone to spend every Monday morning with. <b>FOUND:</b> Aaradhya.</div>
-                        <div class="classified-item"><b>NOTICE:</b> Niv is officially the luckiest man currently residing in the 500 area code.</div>
-                        <div class="classified-item"><b>LOST:</b> Niv's ability to focus on anything else when she's around.</div>
+                        <div class="classified-item"><b>LOST:</b> Niv's ability to act normal when she's in the room. <b>REWARD:</b> Her smile.</div>
+                        <div class="classified-item"><b>PUBLIC NOTICE:</b> Niv is the luckiest man in the 212 area code.</div>
+                    </div>
+
+                    <div class="side-widget">
+                        <h3>WEATHER</h3>
+                        <p style="font-size: 13px;"><strong>BRIGHT:</strong> 100% chance of a special message. Highs of joy, lows of zero regrets.</p>
                     </div>
                     
-                    <div class="weather-widget">
-                        <h4>Today's Forecast</h4>
-                        <p><strong>BRIGHT:</strong> 100% chance of a special message. Highs of absolute joy, lows of zero regrets.</p>
-                    </div>
-                    
-                    <span class="page-link" onclick="toLetter()">Turn to Page 2, Editorial →</span>
+                    <span class="turn-page" onclick="toLetter()">Turn to Page 2, Editorial →</span>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- PHASE 2: EDITORIAL LETTER -->
+    <!-- PHASE 2: EDITORIAL -->
     <section id="letter-view" class="hidden">
         <div style="font-size: 19px; line-height: 1.8;">
             <p>Dearest Aaradhya,</p>
@@ -254,37 +250,29 @@
             <p>Yours always,</p>
             <div class="signature">Niv</div>
             <br>
-            <span class="page-link" onclick="toPuzzle()">Solve "The Daily Connection" →</span>
+            <span class="turn-page" onclick="toPuzzle()">Solve "The Daily Connection" →</span>
         </div>
     </section>
 
     <!-- PHASE 3: THE PUZZLE -->
     <section id="puzzle-view" class="hidden">
-        <h2 class="wordle-header">The Daily Connection</h2>
+        <h2 class="wordle-title">The Daily Connection</h2>
         <div id="grid-container" class="grid-container"></div>
         <p id="hint-text" style="font-weight: 700; color: var(--nyt-blue); height: 20px; margin-bottom: 20px; font-family: var(--wordle-font); font-size: 14px;"></p>
 
         <div class="keyboard">
-            <div class="key-row">
-                <div class="key" onclick="handleInput('Q')">Q</div><div class="key" onclick="handleInput('W')">W</div><div class="key" onclick="handleInput('E')">E</div><div class="key" onclick="handleInput('R')">R</div><div class="key" onclick="handleInput('T')">T</div><div class="key" onclick="handleInput('Y')">Y</div><div class="key" onclick="handleInput('U')">U</div><div class="key" onclick="handleInput('I')">I</div><div class="key" onclick="handleInput('O')">O</div><div class="key" onclick="press('P')">P</div>
-            </div>
-            <div class="key-row">
-                <div class="key" onclick="handleInput('A')">A</div><div class="key" onclick="handleInput('S')">S</div><div class="key" onclick="handleInput('D')">D</div><div class="key" onclick="handleInput('F')">F</div><div class="key" onclick="handleInput('G')">G</div><div class="key" onclick="handleInput('H')">H</div><div class="key" onclick="handleInput('J')">J</div><div class="key" onclick="handleInput('K')">K</div><div class="key" onclick="handleInput('L')">L</div>
-            </div>
-            <div class="key-row">
-                <div class="key wide" onclick="handleInput('ENTER')">ENTER</div>
-                <div class="key" onclick="handleInput('Z')">Z</div><div class="key" onclick="handleInput('X')">X</div><div class="key" onclick="handleInput('C')">C</div><div class="key" onclick="handleInput('V')">V</div><div class="key" onclick="handleInput('B')">B</div><div class="key" onclick="handleInput('N')">N</div><div class="key" onclick="handleInput('M')">M</div>
-                <div class="key wide" onclick="handleInput('DEL')">DEL</div>
-            </div>
+            <div class="key-row"><div class="key" onclick="press('Q')">Q</div><div class="key" onclick="press('W')">W</div><div class="key" onclick="press('E')">E</div><div class="key" onclick="press('R')">R</div><div class="key" onclick="press('T')">T</div><div class="key" onclick="press('Y')">Y</div><div class="key" onclick="press('U')">U</div><div class="key" onclick="press('I')">I</div><div class="key" onclick="press('O')">O</div><div class="key" onclick="press('P')">P</div></div>
+            <div class="key-row"><div class="key" onclick="press('A')">A</div><div class="key" onclick="press('S')">S</div><div class="key" onclick="press('D')">D</div><div class="key" onclick="press('F')">F</div><div class="key" onclick="press('G')">G</div><div class="key" onclick="press('H')">H</div><div class="key" onclick="press('J')">J</div><div class="key" onclick="press('K')">K</div><div class="key" onclick="press('L')">L</div></div>
+            <div class="key-row"><div class="key wide" onclick="press('ENTER')">ENTER</div><div class="key" onclick="press('Z')">Z</div><div class="key" onclick="press('X')">X</div><div class="key" onclick="press('C')">C</div><div class="key" onclick="press('V')">V</div><div class="key" onclick="press('B')">B</div><div class="key" onclick="press('N')">N</div><div class="key" onclick="press('M')">M</div><div class="key wide" onclick="press('DEL')">DEL</div></div>
         </div>
     </section>
 
     <!-- PHASE 4: REVEAL -->
-    <section id="final-view" class="hidden">
+    <section id="final-view" class="hidden" style="text-align: center; padding: 50px 20px;">
         <div id="stack-container" style="display:flex; flex-direction:column; align-items:center; gap:8px; margin-bottom: 30px;"></div>
         <div id="typewriter" class="final-msg"></div>
-        <div id="small-niv" class="tiny-footer hidden">From Niv, with all my love.</div>
-        <button id="yes-btn" class="yes-btn hidden" onclick="finalize()">Confirm</button>
+        <div id="niv-footer" class="footer-credit hidden">From Niv, with all my love.</div>
+        <button id="yes-btn" class="yes-btn hidden" onclick="celebrate()">Confirm ❤️</button>
     </section>
 
     <script>
@@ -296,10 +284,7 @@
             { word: "VALENTINE", hint: "The final connection." }
         ];
 
-        let currentIdx = 0;
-        let currentGuess = "";
-        let rowIdx = 0;
-        let solvedWords = [];
+        let currentIdx = 0, currentGuess = "", rowIdx = 0, solvedWords = [];
 
         function toLetter() {
             document.getElementById('paper-container').classList.add('hidden');
@@ -318,42 +303,44 @@
             container.innerHTML = "";
             const word = puzzles[currentIdx].word;
             document.getElementById('hint-text').innerText = puzzles[currentIdx].hint;
-            
             for (let r = 0; r < 6; r++) {
                 const row = document.createElement('div');
                 row.className = 'wordle-row';
                 for (let c = 0; c < word.length; c++) {
-                    const tile = document.createElement('div');
-                    tile.className = 'tile';
-                    tile.id = `tile-${r}-${c}`;
-                    row.appendChild(tile);
+                    const t = document.createElement('div');
+                    t.className = 'tile'; t.id = `tile-${r}-${c}`; row.appendChild(t);
                 }
                 container.appendChild(row);
             }
         }
 
-        function handleInput(key) {
+        function press(key) {
             const word = puzzles[currentIdx].word;
-            if (key === 'DEL') {
-                currentGuess = currentGuess.slice(0, -1);
-            } else if (key === 'ENTER') {
+            if (key === 'DEL') currentGuess = currentGuess.slice(0, -1);
+            else if (key === 'ENTER') {
                 if (currentGuess.length === word.length) submitGuess();
             } else if (currentGuess.length < word.length && /^[A-Z]$/.test(key)) {
                 currentGuess += key;
             }
-            const tiles = document.querySelectorAll('.wordle-row')[rowIdx].querySelectorAll('.tile');
-            tiles.forEach((t, i) => {
-                t.innerText = currentGuess[i] || "";
-                t.style.borderColor = currentGuess[i] ? "#878a8c" : "#d3d6da";
-            });
+            updateTiles();
+        }
+
+        function updateTiles() {
+            const wordLen = puzzles[currentIdx].word.length;
+            for (let i = 0; i < wordLen; i++) {
+                const tile = document.getElementById(`tile-${rowIdx}-${i}`);
+                if (tile) {
+                    tile.innerText = currentGuess[i] || "";
+                    tile.style.borderColor = currentGuess[i] ? "#878a8c" : "#d3d6da";
+                }
+            }
         }
 
         function submitGuess() {
             const target = puzzles[currentIdx].word;
             const guess = currentGuess;
-            const tiles = document.querySelectorAll('.wordle-row')[rowIdx].querySelectorAll('.tile');
-
-            tiles.forEach((tile, i) => {
+            for (let i = 0; i < target.length; i++) {
+                const tile = document.getElementById(`tile-${rowIdx}-${i}`);
                 setTimeout(() => {
                     tile.style.transform = "rotateX(90deg)";
                     setTimeout(() => {
@@ -363,8 +350,7 @@
                         tile.style.transform = "rotateX(0deg)";
                     }, 150);
                 }, i * 150);
-            });
-
+            }
             setTimeout(() => {
                 if (guess === target) {
                     solvedWords.push(target);
@@ -388,45 +374,43 @@
                 word.split('').forEach(char => {
                     const t = document.createElement('div');
                     t.className = 'tile correct'; t.innerText = char;
-                    t.style.width = '35px'; t.style.height = '35px'; t.style.fontSize = '1rem';
+                    t.style.width = '35px'; t.style.height = '35px'; t.style.fontSize = '1.1rem';
                     row.appendChild(t);
                 });
                 stack.appendChild(row);
             });
-
             setTimeout(() => {
-                let i = 0; const txt = "Great! You’re my valentine now.";
+                let i = 0, txt = "Great! You’re my valentine now.";
                 function type() {
                     if (i < txt.length) {
                         document.getElementById('typewriter').innerHTML += txt.charAt(i);
                         i++; setTimeout(type, 60);
                     } else {
-                        document.getElementById('small-niv').classList.remove('hidden');
                         document.getElementById('yes-btn').classList.remove('hidden');
+                        document.getElementById('niv-footer').classList.remove('hidden');
                     }
                 }
                 type();
             }, 1000);
         }
 
-        function finalize() {
-            confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 }, colors: ['#6aaa64', '#c9b458', '#567b95'] });
-            document.getElementById('yes-btn').innerText = "Confirmed";
+        function celebrate() {
+            confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 } });
+            document.getElementById('yes-btn').innerText = "Confirmed ❤️";
         }
 
-        function createInk(e) {
+        function addInk(e) {
             const stain = document.createElement('div');
-            stain.className = 'ink-stain';
-            stain.style.left = (e.pageX - 60) + 'px';
-            stain.style.top = (e.pageY - 60) + 'px';
+            stain.className = 'coffee-stain';
+            stain.style.left = (e.pageX - 50) + 'px'; stain.style.top = (e.pageY - 50) + 'px';
             document.body.appendChild(stain);
-            setTimeout(() => stain.remove(), 4000);
+            setTimeout(() => stain.remove(), 5000);
         }
 
         window.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') handleInput('ENTER');
-            else if (e.key === 'Backspace') handleInput('DEL');
-            else if (/^[a-zA-Z]$/.test(e.key)) handleInput(e.key.toUpperCase());
+            if (e.key === 'Enter') press('ENTER');
+            else if (e.key === 'Backspace') press('DEL');
+            else if (/^[a-zA-Z]$/.test(e.key)) press(e.key.toUpperCase());
         });
     </script>
 </body>
